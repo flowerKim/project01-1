@@ -1,0 +1,52 @@
+<style type='text/css'>
+#message {
+  color: red;
+}
+.container {
+  padding: 50px 50px;
+  width: 400px;
+}
+</style>
+<div class='container'>
+<form class="form-horizontal">
+  <h3 class="col-sm-offset-2">로그인</h3>
+  <div class="form-group">
+    <label for="email" class="col-sm-4 control-label">이메일</label>
+    <div class="col-sm-6">
+      <input type="email" name='email' class="form-control" 
+            id="email" placeholder="Email">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="password" class="col-sm-4 control-label">암호</label>
+    <div class="col-sm-6">
+      <input type="password" name='password' class="form-control" 
+        id="password" placeholder="Password">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name='saveEmail'> 이메일 기억하기
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-7 col-sm-10">
+      <button id='loginBtn2' type="button" class="btn btn-primary">로그인</button>
+    </div>
+      <span id='message' class="col-sm-offset-3"></span>
+  </div>
+</form>
+</div>
+
+<script>
+requirejs(['app/auth'], function(auth) {
+	auth.init();
+});
+</script>
+

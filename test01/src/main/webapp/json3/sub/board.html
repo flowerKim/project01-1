@@ -1,0 +1,138 @@
+<style>
+.container {
+  width: 800px;
+  margin: 0 auto;
+}
+#listDiv, #formDiv {
+  width: 90%;
+  margin: 0 auto;
+}
+.progress {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>
+<div class='container'> <!-- #main -->
+
+<div id='header' align='right'></div>
+
+<div id='listDiv'>
+	<h1 align='center'>Free Board</h1>
+	<table id='listTable' class='table table-hover'>
+	  <thead>  
+		  <tr>
+		    <th>번호</th>
+		    <th>제목</th>
+		    <th>등록일</th>
+		    <th>조회수</th>
+		  </tr>
+	  </thead>
+	  <tbody></tbody>
+	</table>
+	
+	<div id='paging'>
+	  <div><a id='prevBtn' href='#' class="btn btn-default btn-sm" >이전</a>
+	    <span id='pageNo'></span>
+	    <a id='nextBtn' href='#' class="btn btn-default btn-sm" >다음</a>
+	  </div>
+	</div>
+
+</div> <!-- listDiv -->
+
+<div id='formDiv'>
+  <h2 align='center'>상세 보기</h2>
+  <form class="form-horizontal">
+		<div class="form-group view my-view">
+	    <label for="fNo" class="col-sm-2 control-label">번호</label>
+	    <div class="col-sm-8">
+	      <input type="text" class="form-control" id="fNo" readonly>
+	    </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="fTitle" class="col-sm-2 control-label">제목</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="fTitle">
+      </div>
+    </div>
+		
+    <div class="form-group">
+      <label for="fContent" class="col-sm-2 control-label">내용</label>
+      <div class="col-sm-8">
+        <textarea class="form-control" id="fContent" rows='5'></textarea>
+      </div>
+    </div>
+		
+    <div class="form-group">
+      <label for="fPassword" class="col-sm-2 control-label">비밀번호</label>
+      <div class="col-sm-8">
+        <input type="password" class="form-control" id="fPassword">
+      </div>
+    </div>
+		
+		<div class="form-group my-view">
+	    <label class="col-sm-2 control-label">조회수</label>
+	    <div class="col-sm-8">
+	      <p id='fViewCount' class="form-control-static"></p>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <label class="col-sm-2 control-label">파일첨부</label>
+      <div class="col-sm-7">
+      <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>파일 찾기</span>
+        <input id="fileupload" type="file" name="file" multiple>
+        <input id='fAttachFile' type='hidden'>  
+      </span>
+      <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+      </div>
+      <a id='attachFileLink' target='_blank' href='#' 
+            class="form-control-static my-view"></a><br>
+      <div id="files" class="files"></div>
+    </div>
+    </div>
+		
+		<div class="form-group my-view">
+	    <label class="col-sm-2 control-label">등록일</label>
+	    <div class="col-sm-8">
+	      <p id='fCreateDate' class="form-control-static"></p>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <button id='insertBtn' type="button" class="btn btn-default btn-sm my-new">등록</button>
+	      <button id='updateBtn' type="button" class="btn btn-default btn-sm my-view">변경</button>
+	      <button id='deleteBtn' type="button" class="btn btn-default btn-sm my-view">삭제</button>
+	      <button id='cancelBtn' type="reset" class="btn btn-default btn-sm">취소</button>
+	    </div>
+    </div>
+  
+  </form>
+</div>
+
+</div> <!-- container -->
+
+<script id="template1" type="text/x-handlebars-template">
+{{#each data}}
+<tr class="data-row">
+  <td>{{no}}</td>
+  <td><a class="titleLink" bno="{{no}}" href='#'>{{title}}</td>
+  <td>{{yyyyMMdd}}</td>
+  <td>{{viewCount}}</td>
+</tr>
+{{/each}}
+</script>
+
+<script>
+requirejs(['app/board'], function(board) {
+	board.init();
+	board.listBoard(1, 3);
+});
+</script>
+
+<!-- <script src="sub/board.js"></script> -->
+

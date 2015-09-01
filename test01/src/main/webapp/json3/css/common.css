@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+html[lang=ko-KR] body {
+  font-family: "Lucida Grande", "Lucida Sans Unicode", "Dotum", "Helvetica", "Arial", "Verdana", "sans-serif";
+  font-size: small;
+}
+th, td {
+  text-align: center;	
+}
+
+#pageFooter {
+  background-color: #f0f0f0;
+	font-size: 70%;
+ 
+}
+/* a { text-decoration: none; }
+a:HOVER { color:#666666; }
+a:LINK { color:#666666; }
+a:VISITED { color:#666666; } */
+#paging {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.my-message-warning {
+  color: red;
+}
+.my-message-success {
+  color: blue;
+}

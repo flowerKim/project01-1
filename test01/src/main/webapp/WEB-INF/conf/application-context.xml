@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans
+에서 아래 부분을 긁어서 복붙한당.
+일단은 남이 만든 도구를 사용하는 법부터 배우도록 해볼까?
+ -->
+ 
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/jee
+        http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+  
+<context:component-scan base-package="net.bitacademy.java72">
+  <context:exclude-filter type="annotation" 
+  expression="org.springframework.stereotype.Controller"/>  
+</context:component-scan>  
+
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+  <property name="dataSource" ref="dataSource" />
+  
+  <property name="typeAliasesPackage" value="net.bitacademy.java72.domain" />
+  <!-- SQL 매퍼 파일의 경로를 지정한다. 
+    http://mybatis.github.io/spring/factorybean.html
+  -->
+  <property name="mapperLocations" 
+                value="classpath*:net/bitacademy/java72/**/*Dao.xml" />
+  <!--  java72의 모든 패키지 내에서(**) Dao가 붙은 xml을 검색  -->              
+  
+  
+</bean>
+
+<!-- SQL 매퍼와 인터페이스 연동을 관리하는 객체 
+value에 인터페이스가 선언된 패키지 이름을 적어준다. -->
+
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<property name="basePackage" value="net.bitacademy.java72.dao" />
+</bean>
+
+
+<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  <property name="dataSource" ref="dataSource"/>
+</bean>
+  
+<tx:annotation-driven transaction-manager="txManager"/>
+
+<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/java72db"/>
+
+<tx:advice id="txAdvice" transaction-manager="txManager">
+  <tx:attributes>
+    <tx:method name="get*" read-only="true"/>
+    <tx:method name="list*" read-only="true"/>
+    <tx:method name="*" propagation="REQUIRED"/>
+  </tx:attributes>
+</tx:advice>  
+ 
+<aop:config>
+  <!-- 적용할 클래스나 메소드 정의 -->
+  <aop:pointcut id="serviceOperation"
+          expression="execution(* net..bitacademy.java72.service..*Service.*(..))"/>
+  <!-- 트랜잭션 규칙 적용 -->
+  <aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice"/>
+</aop:config>
+
+<!-- 기존 뷰 리졸버를 대체한다. --> 
+<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+  <!--  4.2.x 부터는 mediaTypes 프로퍼티가 readonly임. 
+        => 외부의 ContentNegotiationManager로 대체함. 
+  <property name="mediaTypes">
+    <map>
+      <entry key="atom" value="application/atom+xml"/>
+      <entry key="html" value="text/html"/>
+      <entry key="json" value="application/json"/>
+    </map>
+  </property>
+  -->
+  <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+  <property name="viewResolvers">
+    <list>
+      <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+      </bean>
+    </list>
+  </property>
+  <property name="defaultViews">
+    <list>
+      <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+    </list>
+  </property>
+</bean>
+
+<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+    <property name="favorPathExtension" value="false" />
+    <property name="favorParameter" value="true" />
+    <property name="mediaTypes" >
+        <value>
+            json=application/json
+            xml=application/xml
+            html=text/html
+            atom=application/atom+xml
+        </value>
+    </property>
+</bean>
+
+  
+  
+  
+  
+  
+  
+</beans>
+
+
+
+
+
+
+
+
+
+

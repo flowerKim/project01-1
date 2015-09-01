@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>새 글</title>
+<style>
+table{
+  border: 1px solid lightgray;
+  padding: 10px;
+  font-family: 굴림체;
+  border-radius: 10px;
+  border-spacing: 5px 2px;
+}
+th{
+  color: #666666;
+  background-color: #eeeeee;
+  width: 60px;
+  font-size: 12px;
+  padding-right: 5px;
+}
+input {
+  padding-left: 3px;
+}
+textarea {
+  padding-left: 3px;
+}
+</style>
+</head>
+<body>
+
+<form action='insert.do' method='post' enctype="multipart/form-data">
+<h1 align='center'>새 글</h1>
+
+<table align='center'>
+	<tr>
+	  <th rows='1' align='right'>제목</th>
+	  <td><input type='text' name='title' style="width:367px" maxlength='20' placeholder="제목을 입력하세요.(20글자 이내)"></td>
+	</tr>
+	<tr>  
+	  <th rows='1' align='right'>내용</th>
+	  <td><textarea name='content' rows='5' cols='50' placeholder="내용을 입력하세요."></textarea></td>
+	</tr>
+	
+	<tr>  
+    <th rows='1' align='right'>비밀번호</th>
+    <td><input type='password' name='password' size='10'></td>
+  </tr>
+	
+	<tr>
+	  <th rows='1' align='right'>파일첨부</th><td>
+	  <input type='file' name='file1'><br></td>
+	</tr>
+	
+	<tr>
+	    <td colspan='2' align="right"><input style="width:60px" type='submit' value='등록'>
+	    <input style="width:60px" type='reset' value='초기화'>
+	    <input style="width:60px" type='button' onClick="location.href='list.do'" value='취소'></td>
+	</tr>
+	    
+
+</table>
+</form>
+</body>
+</html>

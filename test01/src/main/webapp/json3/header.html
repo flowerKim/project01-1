@@ -1,0 +1,14 @@
+<div id='loginDiv'>
+  <a id='loginBtn' href='#'><button type="button" class="btn btn-default btn-xs">로그인</button></a>
+  <div id='userInfo'>
+    <span id='userName'></span>님 (<span id='userEmail'></span>)
+    <a id='logoutBtn' href='#'><button type="button" class="btn btn-default btn-xs">로그아웃</button></a>
+  </div>
+</div>
+<script>
+// header.html을 다룰 자바스크립트 파일을 로딩한다.
+// app/header.js가 로딩되지 않았을 때만 로딩한다. requirejs 지가 알아서 함.
+requirejs(['app/header'], function(header) {
+	header.loadLoginInfo();
+});
+</script>

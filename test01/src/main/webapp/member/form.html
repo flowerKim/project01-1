@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원등록</title>
+<style>
+a { text-decoration: none; }
+a:HOVER { color=#666666; }
+a:LINK { color=#666666; }
+a:VISITED { color=#666666; }
+table {  
+  font-family: 굴림체; 
+  font-size: 12px; 
+  border-radius: 10px; 
+  border: 1px solid darkgray; 
+  padding:10px;  
+  border-spacing: 5px 2px;
+}
+th { 
+  color:#666666; 
+  text-align: right; 
+  background-color: #eaeaea; 
+  padding: 0 7px 0 7px;  
+}
+input { 
+  color:#666666; 
+  padding: 3px; 
+}
+.input-error {
+  border: 1px solid red;
+}
+.duplicate {
+  color: red;
+}
+.success {
+  color: blue;
+}
+
+</style>
+</head>
+<body>
+<form action='insert.do' method='post' enctype="multipart/form-data">
+<h1 align='center'>회원 등록</h1>
+<table align='center'>
+<tr>
+  <th width='60'>이름</th>
+  <td><input type ='text' name='name' placeholder='이름을 입력하세요'></td>
+</tr>
+
+<tr>
+  <th>이메일</th>
+  <td><input type = 'text' name='email'  placeholder='이메일을 입력하세요'>
+  <span id='checkResult'></span></td>
+</tr>
+
+<tr>
+  <th>전화번호</th>
+  <td> <input type = 'text' name='tel'  placeholder='전화번호 입력하세요'></td>
+</tr>
+
+<tr>
+  <th> 암호</th>
+  <td><input type ='password' name='password'></td>
+</tr>
+
+<tr>
+  <th rows='1' align='right'>사진첨부</th><td>
+  <input type='file' name='photo1'><br></td>
+</tr>
+
+<tr>
+<td colspan='2' align='right'><input type ='submit' value='등록' >
+  <input type ='reset' value='초기화' >
+  <input type='button' value='취소' onClick="location.href='list.do'"></td>
+</tr>
+
+</table>
+</form>
+
+<script type="text/javascript">
+"use strict";
+
+var e = document.querySelector('input[name=email]');
+var eCheckResult = document.querySelector('#checkResult');
+
+e.addEventListener('keyup', function(event) {
+	var xhr = new XMLHttpRequest();
+
+	xhr.onreadystatechange = function() {
+	  if (xhr.readyState == 4) {
+	    // 서버의 응답
+	    /*
+	    {
+	    	"result" : "yes"
+	    }
+	    */
+	    var obj = JSON.parse(xhr.responseText);
+	    if (obj.result == 'yes') {
+	    	eCheckResult.className = 'duplicate';
+	    	e.className = 'input-error';
+	    	eCheckResult.innerHTML = '이미 존재하는 이메일입니다.';
+	    } else {
+	    	e.className = '';
+	    	eCheckResult.className = 'success';
+	    	eCheckResult.innerHTML = '사용할 수 있는 이메일입니다.';
+	    }
+	  }
+	};
+	xhr.open('GET', 'existEmail.do?email=' + encodeURIComponent(e.value), true);
+	xhr.send();
+})
+
+// change = 포커스를 잃어버렸을 때 이벤트 발생
+
+</script>
+
+
+
+</body>
+</html>
+
+
+
+
+
