@@ -26,7 +26,7 @@ public class AuthController {
   public String form(@CookieValue(required=false) String email, 
       HttpServletRequest request, HttpSession session,
       Model model) throws Exception {
-
+ 
     String refererUrl = request.getHeader("Referer");
     if (refererUrl != null) {
       session.setAttribute("refererUrl", refererUrl);
